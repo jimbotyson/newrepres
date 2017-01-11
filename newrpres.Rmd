@@ -1,0 +1,216 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+# Aims and objectives
+
+##Aims
+
+After this course participants will be able to identify the basic aims and reproducible research and demonstrate a working understandingn of some of the associated tools.
+
+##Objectives
+
+* To be able to create a document in markdown format using RStudio and including
+    + structured text
+    + code chunks
+    + charts
+    + images
+    + citations and a bibliography
+* To be able to use GitHub for version control of a data analysis project
+
+* To be able to use _make_ to automate the integration of the elements of a data analysis project and create reports and other objects conditionally.
+
+#Software used in these presentations
+
+* [R](https://cran.r-project.org/)
+* [RStudio](https://www.rstudio.com/products/rstudio/download/)
+* [Pandoc](http://pandoc.org/installing.html)
+* [Git (with GitHub)](https://git-scm.com/downloads)
+* [Make (for Windows ^[_make_ is part of the basic distribution of gnu linux systems and of Mac OS])](http://gnuwin32.sourceforge.net/packages/make.htm)
+* [Adobe Acrobat](https://get.adobe.com/uk/reader/otherversions/)
+
+#Using GitHub
+
+##Why use version control?
+
+One of the problems you will encounter in a complex project (such as managing, analysing and reporting on data) is that of maintaining the correct current version and keeping adequate back-ups of previous versions so that if necessary you can roll-back.  Multiple versions of your files stored in folders are a bad idea if managed manually.  Version control systems - such as _git_ handle this automatically.  _GitHub_ is an online repository for your code, data and writing which makes proper version control simple and portable.
+
+Version control can be even more valuable when you collaborate since each participant in a project can access the online repository and as they create modified versions of files, these can be merged (after review) with the online master versions, keeping all participants up to date.
+
+### Set up your project with git and GitHub
+1. set up a git hub account.
+2. Set global settings for git locally:
+```
+  git config --global user.name "Jim Tyson"
+  git config --global user.email "j.tyson@ucl.ac.uk"
+```  
+3. create a new repository on git hub
+4. create a new directory for your project locally (ie on your hard drive)
+5. go to the new directory and initialise it:
+```
+  git init
+```  
+6. create a first file for the project eg a readme.txt file
+7. tell git that the file you created is part of the repository:
+```
+  git add readme.txt
+```  
+8. tell git that you want a snapshot taken of the current repository:
+```
+  git commit -m "Added the file readme.txt"
+  git commit -a
+```  
+9. link the local repository with the remote github repository
+```
+  git remote add origin https://github.com/jimbotyson/myproject.git
+  git remote -v #to check what we just did
+```  
+10. push any changes committed to the local repository to the git hub repository
+```
+  git push origin master
+```
+
+
+<!-- ###Create an r project on GitHub -->
+
+<!-- ###Create a local repository -->
+
+<!-- ###Commit changes -->
+
+<!-- ###Clone a repository -->
+
+#Using markdown in rstudio
+
+Markdown is a simple method of creating formatted documents using only plain text.  The document consists of text and formatting code which is _rendered_ by the a _markdown engine_ to produce a document in any of a variety of formats, for example _html_, _pdf_ or Microsoft Word.  The RStudio package _knitr_ provides for markdown rendering in RStudio.  You should also install _pandoc_ which allows the conversion of documents between a variet of formats, both raw mark up and rendered formats.
+
+##The basics of markup
+
+###Text format
+
+**Bold**  `__italic__` or `**italic**`
+
+*Italic*  `_italic_` or `*italic*`
+
+###Sections and headers
+
+`#Level one heading`
+
+`##Level two heading`
+
+`###Level three heading`
+
+###Lists
+
+####Unordered
+Top level list items are created by `*` followed by four spaces:
+
+`*    Item`
+
+####Ordered
+Top level list items are created by a number followed by four spaces:
+
+`1    Item`
+
+####Nesting
+Nested items are created by indenting four spaces and inserting a `+` sign:
+
+`*    Item`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;`   +Nested Item`
+
+##Combining text and code in RStudio
+
+Creating documents using rmarkdown allows you to weave human readable text and code together.  In this way as you write a report, rather than include the results of analysis, you include the code that produces these results.  This is done by including _code chunks_ in the document.  
+
+The document is then generated from this text and code by the package _knitr_.  This style of working is sometimes called _literate programming_ and is a key element of reproducible research.
+
+###An example
+For example, suppose that I want to include a statistical value obtained from my data in my text.  I could type in the expected values like this:
+
+Testing determined that there is no association between the two factors `$\Chi^2 = 20, df=28, p < .001)$`.
+
+Produces:
+
+Testing determined that there is no association betweenthe two factors ($\chi^2$ = 20, df=2, p < .001)
+
+But this presentation of the result is not dynamically linked to my data or analysis.  It would be better instead of including the results statically to calculate them on the fly as the document is rendered.  So the markdown
+
+Testing determined that the two factors were independent <br />\`r \$\chi^2\$=chisq.test(table(resdf\$sex,resdf\$class))\$statistic,\`, df = \`r chisq.test(table(resdf\$sex,resdf\$class))\$parameter\`, p < \`rformat(chisq.test(table(resdf\$sex,resdf\$class))\$p.value,scientific=F,digits=1)\`
+
+<!-- the following snippet just shows the trick to present r code in line in a markdown document -->
+<!-- ```{r eval=TRUE} -->
+<!-- n = 10 -->
+<!-- rnorm(n) -->
+<!-- ``` -->
+
+becomes:
+```{r echo=FALSE}
+resdf <- read.csv("http://ucl.ac.uk/~ccaajim/results.csv", header = TRUE)
+# this line reads the data file required for the calculation of the statistics
+```
+
+Testing determined that the two factors were independent ( $\chi^2$ = `r chisq.test(table(resdf$sex,resdf$class))$statistic`, df = `r chisq.test(table(resdf$sex,resdf$class))$parameter`, p < `r format(chisq.test(table(resdf$sex,resdf$class))$p.value,scientific=F,digits=1)` )
+
+###Different kinds of code chunk
+
+####echo=FALSE
+
+####eval=FALSE
+
+####results
+
+#####='asis'
+#####='hold'
+#####='hide'
+
+###Tables with _kable_
+So
+
+```{r}
+library(knitr)
+mytable <- table(resdf$sex,resdf$class)
+kable(mytable, row.names = TRUE, col.names = c("one","two","three"))
+```
+
+or
+
+```{r}
+library(knitr)
+english <- resdf$english
+history <- resdf$history
+model <- lm(history~english)
+kable(summary(model)$coeff,digits = 2)
+```
+
+Outputs the markdown code for a formatted table.
+
+###Images
+
+###Charts
+
+###Citation and bibliographies
+
+###?other stuff?
+
+#Using _make_
+
+##Installing _make_
+
+##The idea of conditional compilation
+##Basic _make_ recipe: hello.c
+
+#Putting it together
+
+##Adding package management
+###_packrat_
+
+##Modularising a project:dpa
+
+###Data reading and prep
+###Creating charts
+###Creating the report
+
+##Creating the make recipe for a reproducible project
+
