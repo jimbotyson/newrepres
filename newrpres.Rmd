@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
   word_document: default
 ---
 
@@ -9,7 +9,7 @@ output:
 
 ##Aims
 
-After this course participants will be able to identify the basic aims and reproducible research and demonstrate a working understandingn of some of the associated tools.
+After this course participants will be able to identify the basic aims of reproducible research and demonstrate a working understanding of some of the associated tools.
 
 ##Objectives
 
@@ -84,7 +84,7 @@ Version control can be even more valuable when you collaborate since each partic
 
 #Using markdown in rstudio
 
-Markdown is a simple method of creating formatted documents using only plain text.  The document consists of text and formatting code which is _rendered_ by the a _markdown engine_ to produce a document in any of a variety of formats, for example _html_, _pdf_ or Microsoft Word.  The RStudio package _knitr_ provides for markdown rendering in RStudio.  You should also install _pandoc_ which allows the conversion of documents between a variet of formats, both raw mark up and rendered formats.
+Markdown is a simple method of creating formatted documents using only plain text.  The document consists of text and formatting code which is _rendered_ by the a _markdown engine_ to produce a document in any of a variety of formats, for example _html_, _pdf_ or Microsoft Word.  The RStudio package _knitr_ provides for markdown rendering in RStudio.  You should also install _pandoc_ which allows the conversion of documents between a variety of formats, both raw mark up and rendered formats.
 
 ##The basics of markup
 
@@ -133,7 +133,7 @@ Testing determined that there is no association between the two factors `$\Chi^2
 
 Produces:
 
-Testing determined that there is no association betweenthe two factors ($\chi^2$ = 20, df=2, p < .001)
+Testing determined that there is no association between the two factors ($\chi^2$ = 20, df=2, p < .001)
 
 But this presentation of the result is not dynamically linked to my data or analysis.  It would be better instead of including the results statically to calculate them on the fly as the document is rendered.  So the markdown
 
