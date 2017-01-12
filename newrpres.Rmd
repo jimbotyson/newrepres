@@ -23,6 +23,8 @@ After this course participants will be able to identify the basic aims of reprod
 
 * To be able to use _make_ to automate the integration of the elements of a data analysis project and create reports and other objects conditionally.
 
+* To be able to collaborate effectively with others during a data analysis project using GitHUb
+
 #Software used in these presentations
 
 * [R](https://cran.r-project.org/)
@@ -213,4 +215,12 @@ Outputs the markdown code for a formatted table.
 ###Creating the report
 
 ##Creating the make recipe for a reproducible project
+
+# Collaboration
+
+## How to collaborate
+* What is forking
+* When to fork or clone
+
+## Dealing with merge conflicts
 
